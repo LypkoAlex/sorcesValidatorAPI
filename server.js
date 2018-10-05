@@ -1,19 +1,23 @@
 const express     = require('express');
 const bodyParser  = require('body-parser');
 const cors        = require('cors');
-const multipart   = require('connect-multiparty');
+const upload      = require('multer')();
+const Emb         = require('express-markdown-browser');
+const emb         = new Emb({path: __dirname + "/apidoc"});
 
 const { appPort }   = require('./etc/config.json')[process.env.ENV];
 const promiseRouter = require('./lib/PromiseRouter.js');
 const getRoutes     = require('./lib/routers');
+const handler       = require('./lib/ws/handler.js');
 const routes        = getRoutes();
 const router        = promiseRouter(express.Router);
 
-const app = express();
+require('./lib/db.js').connect();
 
+const app = express();
+require('express-ws')(app);
 app.use(bodyParser.urlencoded());
 
-router.use(multipart());
 app.use(cors({ origin: '*' }));
 
 app.use(bodyParser.json({limit: 1024 * 1024, verify: (req, res, buf) => {
@@ -30,11 +34,17 @@ app.use(bodyParser.json({limit: 1024 * 1024, verify: (req, res, buf) => {
     }
 }}));
 
-// API
+// API VERSION
 app.use('/api/v1', router);
 
-// Files
-router.getAsync('/route', routes.files.upload.bind(routes.files));
+// API DOC
+router.get('/apidoc', emb);
+
+router.postAsync('/users/:userId/sites', upload.any(), routes.sites.open.bind(routes.sites));
+router.getAsync('/users/:userId/sites', upload.any(), routes.sites.list.bind(routes.sites));
+
+// Socket
+router.ws('/:userId', handler);
 
 if (process.env.ENV === 'live') {
     app.listen(appPort, function () {

@@ -1,10 +1,13 @@
 {
     "test" : {
-        "appPort": 8080,
-        "storagePath": "./tests"
     },
     "live" : {
         "appPort": 3000,
-        "storagePath": "./files"
+        "storagePath": "./files",
+        "database" : {
+            "host"     : "35.231.35.69",
+            "username" : "admin",
+            "password" : "abc123"
+        }
     }
 }
