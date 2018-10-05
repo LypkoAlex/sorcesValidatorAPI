@@ -3,11 +3,10 @@
     },
     "live" : {
         "appPort": 3000,
-        "storagePath": "./files",
         "database" : {
-            "host"     : "35.231.35.69",
-            "username" : "admin",
-            "password" : "abc123"
+            "host"     : "",
+            "username" : "",
+            "password" : ""
         }
     }
 }
