@@ -1,5 +1,11 @@
 {
     "test" : {
+        "appPort": 3000,
+        "database" : {
+            "host"     : "",
+            "username" : "",
+            "password" : ""
+        }
     },
     "live" : {
         "appPort": 3000,

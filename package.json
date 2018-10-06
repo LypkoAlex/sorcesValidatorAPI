@@ -4,17 +4,21 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "ENV=live  node --experimental-worker server.js"
+    "start": "ENV=live  node --experimental-worker server.js",
+    "test": "ENV=test node --experimental-worker --no-deprecation mocha-runner.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
     "connect-multiparty": "^2.2.0",
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "express-markdown-browser": "0.0.2",
     "express-ws": "^4.0.0",
     "livr": "^2.1.0",
+    "mocha": "^5.2.0",
     "mongoose": "^5.3.0",
     "multer": "^1.4.0",
     "websocket": "^1.0.28"

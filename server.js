@@ -5,7 +5,6 @@ const upload      = require('multer')();
 const Emb         = require('express-markdown-browser');
 const emb         = new Emb({path: __dirname + "/apidoc"});
 
-const { appPort }   = require('./etc/config.json')[process.env.ENV];
 const promiseRouter = require('./lib/PromiseRouter.js');
 const getRoutes     = require('./lib/routers');
 const handler       = require('./lib/ws/handler.js');
@@ -47,6 +46,7 @@ router.getAsync('/users/:userId/sites', upload.any(), routes.sites.list.bind(rou
 router.ws('/:userId', handler);
 
 if (process.env.ENV === 'live') {
+    const { appPort }   = require('./etc/config.json')[process.env.ENV];
     app.listen(appPort, function () {
         console.log(`listening on port ${appPort}`);
     });
